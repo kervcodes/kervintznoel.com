@@ -3,29 +3,54 @@ import Image from "next/image";
 export default function Home() {
   return (
     <main className="hero">
-      <div className="heroInner">
-        <div className="brandRow animate animate-1">
-          <Image
-            src="/logo2.svg"
-            alt="Kervintz Noel logo"
-            width={470}
-            height={470}
-            priority
-            className="logo"
-          />
+      {/* Background layers */}
+      <div className="bg" aria-hidden="true" />
+      <div className="noise" aria-hidden="true" />
+      <div className="glow" aria-hidden="true" />
 
-          <div className="copy">
-            <h1 className="animate animate-2">Kervintz Noel</h1>
+      {/* ONE stage only */}
+      <div className="stage">
+        {/* ONE glass only */}
+        <div className="glass" aria-hidden="true" />
 
-            <h3>Software Engineer | Support Engineer | Systems Builder</h3>
-
-            <p className="subtitle animate animate-3">
-              Portfolio coming soon
-            </p>
-
-            {/* <p className="small animate animate-4">Please check back soon.</p> */}
+        <header className="topbar">
+          <div className="brand">
+            <Image
+              src="/logo2.svg"
+              alt="Kervintz Noel"
+              width={120}
+              height={120}
+              priority
+              className="logo"
+            />
           </div>
-        </div>
+        </header>
+
+        <section className="content">
+          <div className="kicker">Building a sharper portfolio experience</div>
+
+          <h1 className="title">
+            Portfolio <span className="titleAccent">relaunch</span> in progress.
+          </h1>
+
+          <p className="subtitle">
+            I’m updating my portfolio to show what I’ve been building lately—projects, outcomes, and the work behind the scenes. Back soon.
+          </p>
+
+          <div className="actions">
+            <a className="btnPrimary" href="mailto:kervcodes@outlook.com">Email me</a>
+            <a
+              className="btnGhost"
+              href="https://www.linkedin.com/in/kervintznoel/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              LinkedIn
+            </a>
+          </div>
+
+          <div className="footnote">Last update: 2026 • Boston, MA</div>
+        </section>
       </div>
     </main>
   );

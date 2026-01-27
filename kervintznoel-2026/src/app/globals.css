@@ -1,0 +1,116 @@
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Full-screen background image + overlay */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2.5rem;
+
+  /* Image layer */
+  background-image:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 60%),
+    linear-gradient(180deg, rgba(2, 6, 23, 0.70), rgba(2, 6, 23, 0.92)),
+    url("/bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: #e5e7eb;
+}
+
+/* Soft glass card feel (optional, modern) */
+.heroInner {
+  width: min(1100px, 100%);
+  /* border: 1px solid rgba(255, 255, 255, 0.10); */
+  /* border-radius: 24px; */
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background: rgba(2, 6, 23, 0.35);
+  backdrop-filter: blur(10px);
+  /* box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45); */
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 3rem);
+}
+
+/* Make SVG logo color controlled by CSS (requires currentColor in SVG) */
+.logo {
+  color: #fff;
+  opacity: 0.95;
+  filter: drop-shadow(0 18px 45px rgba(0, 0, 0, 0.55));
+  
+}
+
+.copy h1 {
+  margin: 0 0 0.8rem 0;
+  font-size: clamp(2.4rem, 4.2vw, 4.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0 0 0.85rem 0;
+  max-width: 52ch;
+  font-size: clamp(1.05rem, 1.4vw, 1.35rem);
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.small {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.75;
+}
+
+/* ---------- Animations (modern + subtle) ---------- */
+.animate {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: fadeUp 700ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.animate-1 { animation-delay: 80ms; }
+.animate-2 { animation-delay: 180ms; }
+.animate-3 { animation-delay: 280ms; }
+.animate-4 { animation-delay: 380ms; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtle background motion (optional, very modern) */
+.hero {
+  animation: slowPan 16s ease-in-out infinite alternate;
+}
+
+@keyframes slowPan {
+  from { background-position: 50% 45%; }
+  to   { background-position: 50% 55%; }
+}
+
+/* Mobile: stack logo above text */
+@media (max-width: 720px) {
+  .brandRow {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .subtitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

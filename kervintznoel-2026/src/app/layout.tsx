@@ -4,7 +4,7 @@ export const metadata = {
   title: "Kervintz Noel — Portfolio",
   description: "Software Engineer | Support Engineer | Systems Builder",
   icons: {
-    icon: "/logo.svg",
+    icon: "/logo2.svg",
   },
 };
 

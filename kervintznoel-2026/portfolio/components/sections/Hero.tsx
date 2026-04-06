@@ -5,11 +5,11 @@ import { useTypewriter } from "@/hooks/useTypewriter";
 import { motion } from "framer-motion";
 
 const ROLES = [
-  "SRE @ Liberty Mutual",
+  "Open to new roles",       
+  "ex-SRE @ Liberty Mutual",
   "Building Tidywaro",
   "Haitian music analytics",
   "AWS Solutions Architect",
-  "Open to new roles",
 ];
 
 const STATS = [

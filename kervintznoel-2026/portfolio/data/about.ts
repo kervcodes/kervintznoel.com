@@ -1,5 +1,3 @@
-// src/data/about.ts
-
 export const bio = [
   {
     id: "p1",

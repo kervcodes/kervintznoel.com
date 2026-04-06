@@ -1,10 +1,13 @@
 // src/app/page.tsx
+import Navbar from "@/components/layout/Navbar";
+import Hero from "@/components/sections/Hero";
+
 export default function Home() {
   return (
-    <main>
-      <p style={{ color: "var(--color-accent)", padding: "2rem", fontFamily: "var(--font-mono)" }}>
-        kervintznoel.com — scaffold ✓
-      </p>
+    <main className="bg-[#0A0A0A] min-h-screen">
+      <Navbar />
+      <Hero />
+      {/* Future sections mount here */}
     </main>
   );
 }

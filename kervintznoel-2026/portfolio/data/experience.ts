@@ -1,3 +1,5 @@
+// src/data/experience.ts
+
 export type TimelineStatus = "past" | "education";
 
 export interface TimelineItem {
@@ -24,7 +26,7 @@ export const timeline: TimelineItem[] = [
   {
     id: "prev",
     date: "2019 — 2022",
-    role: "Desktop Support Specialist | User Support Specilist | System Administrator",
+    role: "IT Engineer",
     company: "Previous Role",
     description:
       "Systems administration, network infrastructure, and internal tooling across enterprise environments.",

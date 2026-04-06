@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
 import StatusBadge from "@/components/ui/StatusBadge";
 import type { Project } from "@/data/projects";
+import { motion } from "framer-motion";
 
 const ExternalIcon = () => (
   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

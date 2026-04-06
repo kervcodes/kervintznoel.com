@@ -76,12 +76,5 @@ export const certs: Cert[] = [
     iconVariant: "amber",
     status: "progress",
   },
-  {
-    id: "sf",
-    title: "Salesforce Admin → PD1",
-    issuer: "Salesforce",
-    iconLabel: "SF",
-    iconVariant: "blue",
-    status: "progress",
-  },
+  
 ];

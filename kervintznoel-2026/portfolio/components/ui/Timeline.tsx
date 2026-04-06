@@ -1,3 +1,4 @@
+// src/components/ui/Timeline.tsx
 import { cn } from "@/lib/utils";
 import type { TimelineItem } from "@/data/experience";
 

@@ -1,9 +1,10 @@
 // src/app/blog/page.tsx
+import Navbar from "@/components/layout/Navbar";
+import SectionLabel from "@/components/ui/SectionLabel";
+import { getAllPosts } from "@/lib/mdx";
+import { formatDate } from "@/lib/utils";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllPosts, formatDate } from "@/lib/mdx";
-import SectionLabel from "@/components/ui/SectionLabel";
-import Navbar from "@/components/layout/Navbar";
 
 export const metadata: Metadata = {
   title: "Blog",

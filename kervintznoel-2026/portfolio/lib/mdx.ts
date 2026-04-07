@@ -59,10 +59,3 @@ export function getPostBySlug(slug: string): Post {
     content,
   };
 }
-
-export function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
-}

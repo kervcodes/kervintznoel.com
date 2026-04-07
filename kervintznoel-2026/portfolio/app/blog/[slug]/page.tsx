@@ -1,5 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
-import { formatDate, getAllPosts, getPostBySlug } from "@/lib/mdx";
+import { getAllPosts, getPostBySlug } from "@/lib/mdx";
+import { formatDate } from "@/lib/utils";
 import type { Metadata } from "next";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";

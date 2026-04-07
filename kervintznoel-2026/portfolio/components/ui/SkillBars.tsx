@@ -1,10 +1,10 @@
 // src/components/ui/SkillBars.tsx
 "use client";
 
-import { useRef } from "react";
-import { useInView, motion } from "framer-motion";
 import { skillCategories } from "@/data/skills";
 import { cn } from "@/lib/utils";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const barColor: Record<string, string> = {
   emerald: "bg-accent",
@@ -41,7 +41,7 @@ export default function SkillBars() {
                       animate={inView ? { width: `${skill.level}%` } : { width: 0 }}
                       transition={{
                         duration: 1,
-                        ease: [0.25, 0.1, 0.25, 1],
+                        ease: [0.25, 0.1, 0.25, 1] as const,
                         delay: 0.1,
                       }}
                     />

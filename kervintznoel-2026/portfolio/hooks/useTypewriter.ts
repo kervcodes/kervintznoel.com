@@ -1,7 +1,7 @@
 // src/hooks/useTypewriter.ts
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function useTypewriter(words: string[], speed = 70, deleteSpeed = 40, pause = 2200) {
   const [displayed, setDisplayed] = useState("");

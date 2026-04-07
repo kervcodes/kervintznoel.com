@@ -1,13 +1,13 @@
 // src/components/sections/Experience.tsx
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import SectionLabel from "@/components/ui/SectionLabel";
-import Timeline from "@/components/ui/Timeline";
-import SkillBars from "@/components/ui/SkillBars";
 import CertCards from "@/components/ui/CertCards";
+import SectionLabel from "@/components/ui/SectionLabel";
+import SkillBars from "@/components/ui/SkillBars";
+import Timeline from "@/components/ui/Timeline";
 import { timeline } from "@/data/experience";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const container = {
   hidden: {},
@@ -19,7 +19,7 @@ const item = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
   },
 };
 

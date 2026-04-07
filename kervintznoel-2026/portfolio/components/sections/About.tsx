@@ -1,13 +1,12 @@
 // src/components/sections/About.tsx
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
 import SectionLabel from "@/components/ui/SectionLabel";
-import TerminalCard from "@/components/ui/TerminalCard";
 import StackChips from "@/components/ui/StackChips";
+import TerminalCard from "@/components/ui/TerminalCard";
 import { bio, values } from "@/data/about";
-import { cn } from "@/lib/utils";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const container = {
   hidden: {},
@@ -19,7 +18,7 @@ const item = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
   },
 };
 

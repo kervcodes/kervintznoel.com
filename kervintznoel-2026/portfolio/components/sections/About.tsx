@@ -84,7 +84,7 @@ export default function About() {
                   variants={item}
                   className="flex items-start gap-3 text-[14px] text-muted leading-[1.7]"
                 >
-                  <span className="text-accent text-[10px] mt-[5px] flex-shrink-0">▸</span>
+                  <span aria-hidden="true" className="text-accent text-[10px] mt-[5px] flex-shrink-0">▸</span>
                   <span>
                     <strong className="text-[#ccc] font-medium">{v.title}</strong>{" "}
                     {v.body}

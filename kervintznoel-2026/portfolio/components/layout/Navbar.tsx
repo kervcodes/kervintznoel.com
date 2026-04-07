@@ -5,8 +5,9 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "#work", label: "work" },
   { href: "#about", label: "about" },
+  { href: "#work", label: "work" },
+  { href: "#experience", label: "experience" },
   { href: "#blog", label: "blog" },
   { href: "#contact", label: "contact" },
 ];
@@ -36,7 +37,7 @@ export default function Navbar() {
         href="/"
         className="font-mono text-[13px] text-accent tracking-widest hover:opacity-70 transition-opacity"
       >
-        KN.dev
+        KN
       </Link>
 
       <ul className="flex items-center gap-8">

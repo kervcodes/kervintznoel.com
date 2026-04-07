@@ -46,7 +46,7 @@ export const values = [
 
 export const stack = [
   { label: "TypeScript", accent: true },
-  { label: "React Native", accent: true },
+//   { label: "React Native", accent: true },
   { label: "Next.js", accent: true },
   { label: "Node.js", accent: false },
   { label: "Supabase", accent: false },
@@ -54,7 +54,7 @@ export const stack = [
   { label: "AWS", accent: false },
   { label: "Docker", accent: false },
   { label: "GitHub Actions", accent: false },
-  { label: "Expo", accent: false },
+//   { label: "Expo", accent: false },
   { label: "Prisma", accent: false },
   { label: "Tailwind CSS", accent: false },
   { label: "Python", accent: false },
@@ -67,6 +67,6 @@ export const terminalData = {
   location: "Greater Boston, MA",
   experience: 7,
   products: ["Tidywaro", "HaitiBillboard", "opsboard"],
-  learning: ["AWS SAA", "Salesforce"],
+  learning: ["AWS SAA"],
   available: true,
 };

@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { getAllPosts, getPostBySlug, formatDate } from "@/lib/mdx";
 import Navbar from "@/components/layout/Navbar";
+import { formatDate, getAllPosts, getPostBySlug } from "@/lib/mdx";
+import type { Metadata } from "next";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -36,7 +36,7 @@ export default async function PostPage({ params }: Props) {
     <main className="bg-[#0A0A0A] min-h-screen">
       <Navbar />
 
-      <article className="px-8 md:px-16 lg:px-24 pt-40 pb-32 max-w-3xl">
+      <article className="px-8 md:px-16 lg:px-24 pt-40 pb-32 max-w-3xl mx-auto">
         {/* Back link */}
         <Link
           href="/blog"

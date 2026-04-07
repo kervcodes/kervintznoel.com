@@ -5,6 +5,8 @@ import About from "@/components/sections/About";
 import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
 import Blog from "@/components/sections/Blog";
+import Contact from "@/components/sections/Contact";
+import Footer from "@/components/layout/Footer";
 import { getAllPosts } from "@/lib/mdx";
 
 export default function Home() {
@@ -18,7 +20,8 @@ export default function Home() {
       <Projects />
       <Experience />
       <Blog posts={posts} />
-      {/* Future sections mount here */}
+      <Contact />
+      <Footer />
     </main>
   );
 }

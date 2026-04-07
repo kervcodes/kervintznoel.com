@@ -1,0 +1,108 @@
+// src/app/api/contact/route.ts
+import type { ContactPayload } from "@/lib/types";
+import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function sanitize(str: string): string {
+  return str.trim().slice(0, 2000);
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = (await req.json()) as ContactPayload;
+
+    const { name, email, subject, message } = body;
+
+    // Validation
+    if (!name || !email || !subject || !message) {
+      return NextResponse.json(
+        { error: "All fields are required." },
+        { status: 400 }
+      );
+    }
+
+    if (!isValidEmail(email)) {
+      return NextResponse.json(
+        { error: "Please enter a valid email address." },
+        { status: 400 }
+      );
+    }
+
+    const cleanName    = sanitize(name);
+    const cleanEmail   = sanitize(email);
+    const cleanSubject = sanitize(subject);
+    const cleanMessage = sanitize(message);
+
+    // Send to you
+    await resend.emails.send({
+      from:    "Portfolio Contact <onboarding@resend.dev>",
+      to:      process.env.CONTACT_EMAIL!,
+      subject: `[kervintznoel.com] ${cleanSubject} — from ${cleanName}`,
+      html: `
+        <div style="font-family:monospace;max-width:600px;margin:0 auto;padding:32px;background:#0f0f0f;color:#f5f5f5;border-radius:12px">
+          <p style="color:#6EE7B7;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:24px">
+            New message from kervintznoel.com
+          </p>
+          <table style="width:100%;border-collapse:collapse">
+            <tr><td style="color:#555;font-size:12px;padding:8px 0;border-bottom:1px solid #1a1a1a;width:100px">Name</td>
+                <td style="color:#ccc;font-size:14px;padding:8px 0;border-bottom:1px solid #1a1a1a">${cleanName}</td></tr>
+            <tr><td style="color:#555;font-size:12px;padding:8px 0;border-bottom:1px solid #1a1a1a">Email</td>
+                <td style="color:#ccc;font-size:14px;padding:8px 0;border-bottom:1px solid #1a1a1a">${cleanEmail}</td></tr>
+            <tr><td style="color:#555;font-size:12px;padding:8px 0;border-bottom:1px solid #1a1a1a">Subject</td>
+                <td style="color:#ccc;font-size:14px;padding:8px 0;border-bottom:1px solid #1a1a1a">${cleanSubject}</td></tr>
+          </table>
+          <div style="margin-top:24px;padding:20px;background:#111;border-radius:8px;border:1px solid #1e1e1e">
+            <p style="color:#555;font-size:12px;margin-bottom:12px">Message</p>
+            <p style="color:#ccc;font-size:14px;line-height:1.7;white-space:pre-wrap">${cleanMessage}</p>
+          </div>
+          <p style="color:#333;font-size:11px;margin-top:24px">
+            Reply directly to this email to respond to ${cleanName}.
+          </p>
+        </div>
+      `,
+      replyTo: cleanEmail,
+    });
+
+    // Send confirmation to sender
+    await resend.emails.send({
+      from:    "Kervintz Noel <onboarding@resend.dev>",
+      to:      cleanEmail,
+      subject: "Got your message — I'll be in touch soon",
+      html: `
+        <div style="font-family:monospace;max-width:600px;margin:0 auto;padding:32px;background:#0f0f0f;color:#f5f5f5;border-radius:12px">
+          <p style="color:#6EE7B7;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:24px">
+            kervintznoel.com
+          </p>
+          <p style="color:#ccc;font-size:16px;font-family:'Georgia',serif;margin-bottom:16px">
+            Hey ${cleanName},
+          </p>
+          <p style="color:#888;font-size:14px;line-height:1.7;margin-bottom:24px">
+            Thanks for reaching out. I got your message and will reply within 48 hours.
+          </p>
+          <p style="color:#555;font-size:13px;line-height:1.7">
+            — Kervintz
+          </p>
+          <hr style="border:none;border-top:1px solid #1a1a1a;margin:32px 0"/>
+          <p style="color:#333;font-size:11px">
+            You're receiving this because you submitted the contact form at kervintznoel.com
+          </p>
+        </div>
+      `,
+    });
+
+    return NextResponse.json({ success: true }, { status: 200 });
+
+  } catch (err) {
+    console.error("[contact] send error:", err);
+    return NextResponse.json(
+      { error: "Something went wrong. Please try emailing me directly." },
+      { status: 500 }
+    );
+  }
+}

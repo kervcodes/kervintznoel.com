@@ -16,7 +16,7 @@ export default function BlogIndex() {
   return (
     <main className="bg-[#0A0A0A] min-h-screen">
       <Navbar />
-      <div className="px-8 md:px-16 lg:px-24 pt-40 pb-32 max-w-4xl">
+      <div className="px-8 md:px-16 lg:px-24 pt-40 pb-32 max-w-4xl mx-auto">
         <SectionLabel>Writing</SectionLabel>
         <h1
           className="font-display leading-[1.08] tracking-tight mb-4"

@@ -1,0 +1,25 @@
+---
+title: "What 3 years of incident response actually taught me"
+excerpt: "Not the textbook stuff. The real patterns — why postmortems fail, what makes an on-call rotation sustainable, and the one metric that tells you more than MTTR ever will."
+date: "2025-03-01"
+tag: "SRE"
+featured: true
+---
+
+Incident response looks clean on a diagram. Detect → triage → mitigate → resolve → postmortem. In practice it's messier, faster, and more human than any runbook prepares you for.
+
+## The postmortem problem
+
+Most postmortems fail before they start. Not because teams aren't smart — because they optimize for documentation over learning. A five-page doc nobody reads is not a postmortem. It's liability coverage.
+
+The best postmortem I ever ran was two whiteboards and thirty minutes. We left with three action items, all owned, all shipped within a week.
+
+## The metric nobody talks about
+
+MTTR gets all the attention. Mean time to resolution — how fast did you fix it? But MTTR hides a more important number: **time to first hypothesis**.
+
+How long did it take your team to have a theory about what was wrong? That gap — alert fires to first guess — is where most incidents are actually won or lost.
+
+## What sustainable on-call looks like
+
+Sustainable on-call isn't about fewer pages. It's about pages that make sense. If your engineers can't explain *why* an alert fired within 60 seconds of looking at it, the alert is wrong — not the engineer.

@@ -11,7 +11,7 @@ export function useTypewriter(words: string[], speed = 70, deleteSpeed = 40, pau
   const [waiting, setWaiting] = useState(false);
 
   useEffect(() => {
-    if (waiting) return;
+    if (words.length === 0 || waiting) return;
 
     const current = words[wordIndex];
     let pauseTimeout: ReturnType<typeof setTimeout> | undefined;

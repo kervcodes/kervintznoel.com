@@ -317,10 +317,11 @@ export default function Contact() {
 
                     {/* Message */}
                     <div className="flex flex-col gap-2">
-                      <label className="font-mono text-[10px] text-subtle tracking-[0.1em] uppercase">
+                      <label htmlFor="contact-message" className="font-mono text-[10px] text-subtle tracking-[0.1em] uppercase">
                         Message
                       </label>
                       <textarea
+                        id="contact-message"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Tell me what you're working on..."

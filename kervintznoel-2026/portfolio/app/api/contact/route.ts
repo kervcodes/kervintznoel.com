@@ -5,6 +5,31 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// ---------------------------------------------------------------------------
+// In-memory rate limiter: max 5 submissions per IP per 10 minutes
+// ---------------------------------------------------------------------------
+const RATE_LIMIT_MAX      = 5;
+const RATE_LIMIT_WINDOW   = 10 * 60 * 1000; // 10 minutes in ms
+
+const ipHits = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now  = Date.now();
+  const entry = ipHits.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    ipHits.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW });
+    return false;
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX) return true;
+
+  entry.count++;
+  return false;
+}
+
+// ---------------------------------------------------------------------------
+
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -27,29 +52,56 @@ function escapeHtml(str: string): string {
 
 export async function POST(req: NextRequest) {
   try {
+    // Rate limiting
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: "Too many requests. Please wait before trying again." },
+        { status: 429 }
+      );
+    }
+
     const body = (await req.json()) as ContactPayload;
+
+    // Honeypot check — bots fill hidden fields, humans leave them empty
+    if (body.website) {
+      return NextResponse.json({ success: true }, { status: 200 });
+    }
 
     const { name, email, subject, message } = body;
 
-    // Validation
-    if (!name || !email || !subject || !message) {
+    // Type-check all fields before sanitizing to avoid runtime throws
+    if (
+      typeof name    !== "string" ||
+      typeof email   !== "string" ||
+      typeof subject !== "string" ||
+      typeof message !== "string"
+    ) {
+      return NextResponse.json(
+        { error: "Invalid request payload." },
+        { status: 400 }
+      );
+    }
+
+    // Sanitize first, then validate against the cleaned values
+    const cleanName    = sanitize(name);
+    const cleanEmail   = sanitize(email);
+    const cleanSubject = sanitize(subject);
+    const cleanMessage = sanitize(message);
+
+    if (!cleanName || !cleanEmail || !cleanSubject || !cleanMessage) {
       return NextResponse.json(
         { error: "All fields are required." },
         { status: 400 }
       );
     }
 
-    if (!isValidEmail(email)) {
+    if (!isValidEmail(cleanEmail)) {
       return NextResponse.json(
         { error: "Please enter a valid email address." },
         { status: 400 }
       );
     }
-
-    const cleanName    = sanitize(name);
-    const cleanEmail   = sanitize(email);
-    const cleanSubject = sanitize(subject);
-    const cleanMessage = sanitize(message);
 
     const safeName    = escapeHtml(cleanName);
     const safeEmail   = escapeHtml(cleanEmail);

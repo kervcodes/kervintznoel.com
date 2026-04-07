@@ -1,11 +1,11 @@
 // src/components/sections/Contact.tsx
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { useContactForm } from "@/hooks/useContactForm";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
 
 const SUBJECTS = [
   "Job opportunity",
@@ -83,7 +83,7 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] } },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const } },
 };
 
 export default function Contact() {
@@ -96,10 +96,11 @@ export default function Contact() {
   const [email,   setEmail]   = useState("");
   const [subject, setSubject] = useState(SUBJECTS[0]);
   const [message, setMessage] = useState("");
+  const [website, setWebsite] = useState(""); // honeypot
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    await submit({ name, email, subject, message });
+    await submit({ name, email, subject, message, website });
   }
 
   function handleReset() {
@@ -249,6 +250,17 @@ export default function Contact() {
                     onSubmit={handleSubmit}
                     className="flex flex-col gap-5"
                   >
+                    {/* Honeypot — hidden from real users, bots fill it */}
+                    <input
+                      type="text"
+                      name="website"
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0 }}
+                    />
                     {/* Name + Email row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="flex flex-col gap-2">

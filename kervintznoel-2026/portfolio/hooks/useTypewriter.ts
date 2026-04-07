@@ -1,7 +1,7 @@
 // src/hooks/useTypewriter.ts
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function useTypewriter(words: string[], speed = 70, deleteSpeed = 40, pause = 2200) {
   const [displayed, setDisplayed] = useState("");
@@ -9,12 +9,12 @@ export function useTypewriter(words: string[], speed = 70, deleteSpeed = 40, pau
   const [charIndex, setCharIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const [waiting, setWaiting] = useState(false);
+  const pauseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (words.length === 0 || waiting) return;
 
     const current = words[wordIndex];
-    let pauseTimeout: ReturnType<typeof setTimeout> | undefined;
 
     const timeout = setTimeout(() => {
       if (!deleting) {
@@ -24,7 +24,8 @@ export function useTypewriter(words: string[], speed = 70, deleteSpeed = 40, pau
 
         if (charIndex + 1 === current.length) {
           setWaiting(true);
-          pauseTimeout = setTimeout(() => {
+          pauseTimeoutRef.current = setTimeout(() => {
+            pauseTimeoutRef.current = null;
             setDeleting(true);
             setWaiting(false);
           }, pause);
@@ -41,11 +42,15 @@ export function useTypewriter(words: string[], speed = 70, deleteSpeed = 40, pau
       }
     }, deleting ? deleteSpeed : speed);
 
-    return () => {
-      clearTimeout(timeout);
-      if (pauseTimeout !== undefined) clearTimeout(pauseTimeout);
-    };
+    return () => clearTimeout(timeout);
   }, [charIndex, deleting, wordIndex, words, speed, deleteSpeed, pause, waiting]);
+
+  // Clear pause timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
+    };
+  }, []);
 
   return displayed;
 }

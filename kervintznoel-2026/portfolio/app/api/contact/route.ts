@@ -138,8 +138,8 @@ export async function POST(req: NextRequest) {
       replyTo: cleanEmail,
     });
 
-    // Send confirmation to sender
-    await resend.emails.send({
+    // Send confirmation to sender (best-effort — don't fail if this bounces)
+    resend.emails.send({
       from:    "Kervintz Noel <onboarding@resend.dev>",
       to:      cleanEmail,
       subject: "Got your message — I'll be in touch soon",
@@ -163,7 +163,7 @@ export async function POST(req: NextRequest) {
           </p>
         </div>
       `,
-    });
+    }).catch((err) => console.error("[contact] confirmation email failed:", err));
 
     return NextResponse.json({ success: true }, { status: 200 });
 

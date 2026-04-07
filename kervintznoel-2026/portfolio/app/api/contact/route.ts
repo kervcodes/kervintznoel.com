@@ -13,6 +13,18 @@ function sanitize(str: string): string {
   return str.trim().slice(0, 2000);
 }
 
+function escapeHtml(str: string): string {
+  return str.replace(/[&<>"']/g, (char) => {
+    switch (char) {
+      case "&":  return "&amp;";
+      case "<":  return "&lt;";
+      case ">": return "&gt;";
+      case '"': return "&quot;";
+      default:   return "&#39;";
+    }
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as ContactPayload;
@@ -39,11 +51,16 @@ export async function POST(req: NextRequest) {
     const cleanSubject = sanitize(subject);
     const cleanMessage = sanitize(message);
 
+    const safeName    = escapeHtml(cleanName);
+    const safeEmail   = escapeHtml(cleanEmail);
+    const safeSubject = escapeHtml(cleanSubject);
+    const safeMessage = escapeHtml(cleanMessage);
+
     // Send to you
     await resend.emails.send({
       from:    "Portfolio Contact <onboarding@resend.dev>",
       to:      process.env.CONTACT_EMAIL!,
-      subject: `[kervintznoel.com] ${cleanSubject} — from ${cleanName}`,
+      subject: `[kervintznoel.com] ${safeSubject} — from ${safeName}`,
       html: `
         <div style="font-family:monospace;max-width:600px;margin:0 auto;padding:32px;background:#0f0f0f;color:#f5f5f5;border-radius:12px">
           <p style="color:#6EE7B7;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:24px">
@@ -51,18 +68,18 @@ export async function POST(req: NextRequest) {
           </p>
           <table style="width:100%;border-collapse:collapse">
             <tr><td style="color:#555;font-size:12px;padding:8px 0;border-bottom:1px solid #1a1a1a;width:100px">Name</td>
-                <td style="color:#ccc;font-size:14px;padding:8px 0;border-bottom:1px solid #1a1a1a">${cleanName}</td></tr>
+                <td style="color:#ccc;font-size:14px;padding:8px 0;border-bottom:1px solid #1a1a1a">${safeName}</td></tr>
             <tr><td style="color:#555;font-size:12px;padding:8px 0;border-bottom:1px solid #1a1a1a">Email</td>
-                <td style="color:#ccc;font-size:14px;padding:8px 0;border-bottom:1px solid #1a1a1a">${cleanEmail}</td></tr>
+                <td style="color:#ccc;font-size:14px;padding:8px 0;border-bottom:1px solid #1a1a1a">${safeEmail}</td></tr>
             <tr><td style="color:#555;font-size:12px;padding:8px 0;border-bottom:1px solid #1a1a1a">Subject</td>
-                <td style="color:#ccc;font-size:14px;padding:8px 0;border-bottom:1px solid #1a1a1a">${cleanSubject}</td></tr>
+                <td style="color:#ccc;font-size:14px;padding:8px 0;border-bottom:1px solid #1a1a1a">${safeSubject}</td></tr>
           </table>
           <div style="margin-top:24px;padding:20px;background:#111;border-radius:8px;border:1px solid #1e1e1e">
             <p style="color:#555;font-size:12px;margin-bottom:12px">Message</p>
-            <p style="color:#ccc;font-size:14px;line-height:1.7;white-space:pre-wrap">${cleanMessage}</p>
+            <p style="color:#ccc;font-size:14px;line-height:1.7;white-space:pre-wrap">${safeMessage}</p>
           </div>
           <p style="color:#333;font-size:11px;margin-top:24px">
-            Reply directly to this email to respond to ${cleanName}.
+            Reply directly to this email to respond to ${safeName}.
           </p>
         </div>
       `,
@@ -80,7 +97,7 @@ export async function POST(req: NextRequest) {
             kervintznoel.com
           </p>
           <p style="color:#ccc;font-size:16px;font-family:'Georgia',serif;margin-bottom:16px">
-            Hey ${cleanName},
+            Hey ${safeName},
           </p>
           <p style="color:#888;font-size:14px;line-height:1.7;margin-bottom:24px">
             Thanks for reaching out. I got your message and will reply within 48 hours.
